@@ -9,13 +9,17 @@ p_switch.o p_telept.o p_tick.o p_user.o r_bsp.o r_data.o r_draw.o \
 r_main.o r_plane.o r_segs.o r_sky.o r_things.o s_sound.o sounds.o \
 st_lib.o st_stuff.o tables.o v_video.o w_wad.o wi_stuff.o z_zone.o ps2doom.o
 
-EE_BIN = doom.elf
+BINDIR = bin/
+EE_BIN = $(BINDIR)doom.elf
 
 EE_INCS = -I$(PS2SDK)/ports/include/SDL
 EE_LDFLAGS = -L$(PS2SDK)/ports/lib -L$(PS2DEV)/gsKit/lib 
 EE_LIBS = -lsdlmain -lsdl -lgskit -lcdvd -lmf -lps2ip -lnetman
 
-all: $(EE_BIN)
+all: $(BINDIR) $(EE_BIN)
+
+$(BINDIR):
+	mkdir -p $@
 
 clean:
 	rm -f $(EE_OBJS) $(EE_BIN)
