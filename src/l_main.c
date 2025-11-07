@@ -183,9 +183,13 @@ enum {
 
 unsigned int endoom_mode;
 
+#ifndef __GITHASH__
+#define __GITHASH__ "UNKNOWN?"
+#endif
+
 static void PrintVer(void)
 {
-	printf("PS2Doom v%s\n",VERSION);
+	printf("PS2Doom v%s\nCompiled on %s  %s\nCommit: %s", VERSION, __DATE__, __TIME__, __GITHASH__);
 }
 
 /* I_EndDoom
