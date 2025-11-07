@@ -1,10 +1,11 @@
-BINDIR ?= bin/
+BINDIR ?= ../bin/
 EE_BIN = $(BINDIR)DOOM.ELF
 
 EE_INCS = -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/ports/include/zlib
-EE_LIBS = -L$(PS2SDK)/ports/lib -lsdlmixer -lsdl -lc -lm -ldebug 
+EE_LIBS = -L$(PS2SDK)/ports/lib -lsdlmixer -lsdl -lc -lm -ldebug
 
 EE_CFLAGS = -DUSE_RWOPS -DHAVE_CONFIG_H -DHAVE_MIXER
+EE_CFLAGS += -DCOMMIT_HASH=\"$(shell git rev-parse --short HEAD)\"
 EE_CXXFLAGS = -DSYS_LITTLE_ENDIAN -DSYS_NEED_ALIGNMENT -DBYPASS_PROTECTION -DUSE_RWOPS -DHAVE_CONFIG_H -DHAVE_MIXER
 
 EE_OBJS  = l_sdl.o \
@@ -30,6 +31,9 @@ usbd.s usbhdfsd.s
 
 
 all: $(BINDIR) $(EE_BIN)
+
+release: clean all
+	cp ../data/boomlump.wad $(BINDIR)boomlump.wad
 
 $(BINDIR):
 	mkdir -p $@
