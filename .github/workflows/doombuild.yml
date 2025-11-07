@@ -1,0 +1,62 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ps2dev/ps2dev:v1.0
+    steps:
+
+      - name: Dependencies
+        run: |
+          apk add make git zip
+
+      - uses: actions/checkout@v4
+      - run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git fetch --prune --unshallow
+
+      - name: Clear bin directory
+        run: |
+          rm -rf bin/
+
+      - name: Compile DOOM
+        run: |
+          make release -C src
+
+      - name: Upload artifacts
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: PS2DOOM
+          path: |
+            bin/*
+
+      - name: pack
+        run: |
+          zip PS2DOOM.zip -9 -r bin/
+
+      - name: Compile package for games
+        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+        run: |
+          chmod +x ./compile_generic_package.sh
+          ./compile_generic_package.sh
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        if: github.ref == 'refs/heads/master'
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "nightly"
+          prerelease: true
+          title: "Nightly build"
+          files: |
+            PS2DOOM.zip
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          draft: true
+          files: |
+            PS2DOOM.zip
