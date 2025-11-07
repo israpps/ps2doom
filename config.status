@@ -2,7 +2,7 @@
 # Generated automatically by configure.
 # Run this file to recreate the current configuration.
 # This directory was configured as follows,
-# on host zen:
+# on host nyc-jyu:
 #
 # ./configure 
 #
@@ -28,8 +28,7 @@ done
 ac_given_srcdir=.
 ac_given_INSTALL="/usr/bin/install -c"
 
-trap 'rm -fr 
-Makefile conftest*; exit 1' 1 2 15
+trap 'rm -fr Makefile src/Makefile doc/Makefile data/Makefile lsdldoom.spec config.h conftest*; exit 1' 1 2 15
 
 # Protect against being on the right side of a sed subst in config.status.
 sed 's/%@/@@/; s/@%/@@/; s/%g$/@g/; /@g$/s/[\\&%]/\\&/g;
@@ -37,14 +36,14 @@ sed 's/%@/@@/; s/@%/@@/; s/%g$/@g/; /@g$/s/[\\&%]/\\&/g;
 /^[ 	]*VPATH[ 	]*=[^:]*$/d
 
 s%@SHELL@%/bin/sh%g
-s%@CFLAGS@%-g -O2 -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT%g
+s%@CFLAGS@%-O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer%g
 s%@CPPFLAGS@%%g
 s%@CXXFLAGS@%%g
 s%@FFLAGS@%%g
-s%@DEFS@% -DPACKAGE=\"sdldoom\" -DVERSION=\"1.10\" %g
+s%@DEFS@%-DHAVE_CONFIG_H%g
 s%@LDFLAGS@%%g
-s%@LIBS@% -L/usr/lib -lSDL%g
-s%@exec_prefix@%${prefix}%g
+s%@LIBS@%%g
+s%@exec_prefix@%/usr/local%g
 s%@prefix@%/usr/local%g
 s%@program_transform_name@%s,x,x,%g
 s%@bindir@%${exec_prefix}/bin%g
@@ -59,21 +58,47 @@ s%@includedir@%${prefix}/include%g
 s%@oldincludedir@%/usr/include%g
 s%@infodir@%${prefix}/info%g
 s%@mandir@%${prefix}/man%g
+s%@host@%i686-pc-cygwin32%g
+s%@host_alias@%i686-pc-cygwin32%g
+s%@host_cpu@%i686%g
+s%@host_vendor@%pc%g
+s%@host_os@%cygwin32%g
+s%@target@%i686-pc-cygwin32%g
+s%@target_alias@%i686-pc-cygwin32%g
+s%@target_cpu@%i686%g
+s%@target_vendor@%pc%g
+s%@target_os@%cygwin32%g
+s%@build@%i686-pc-cygwin32%g
+s%@build_alias@%i686-pc-cygwin32%g
+s%@build_cpu@%i686%g
+s%@build_vendor@%pc%g
+s%@build_os@%cygwin32%g
+s%@I386_ASM_TRUE@%%g
+s%@I386_ASM_FALSE@%#%g
 s%@INSTALL_PROGRAM@%${INSTALL}%g
 s%@INSTALL_SCRIPT@%${INSTALL_PROGRAM}%g
 s%@INSTALL_DATA@%${INSTALL} -m 644%g
-s%@PACKAGE@%sdldoom%g
-s%@VERSION@%1.10%g
-s%@ACLOCAL@%aclocal%g
-s%@AUTOCONF@%autoconf%g
-s%@AUTOMAKE@%automake%g
-s%@AUTOHEADER@%autoheader%g
-s%@MAKEINFO@%/home/lukasz/code/ps2/projects/sdldoom-1.10/missing makeinfo%g
+s%@PACKAGE@%lsdldoom%g
+s%@VERSION@%1.4.4.4%g
+s%@ACLOCAL@%/home/jyu/lsdldoom-1.4.4.4/missing aclocal%g
+s%@AUTOCONF@%/home/jyu/lsdldoom-1.4.4.4/missing autoconf%g
+s%@AUTOMAKE@%/home/jyu/lsdldoom-1.4.4.4/missing automake%g
+s%@AUTOHEADER@%/home/jyu/lsdldoom-1.4.4.4/missing autoheader%g
+s%@MAKEINFO@%makeinfo%g
 s%@SET_MAKE@%%g
 s%@CC@%gcc%g
-s%@SDL_CONFIG@%/usr/bin/sdl-config%g
-s%@SDL_CFLAGS@%-I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT%g
-s%@SDL_LIBS@%-L/usr/lib -lSDL%g
+s%@CPP@%gcc -E%g
+s%@SDL_CONFIG@%no%g
+s%@SDL_CFLAGS@%%g
+s%@SDL_LIBS@%%g
+s%@HAVE_NET_TRUE@%%g
+s%@HAVE_NET_FALSE@%#%g
+s%@BUILD_SDLDOOM@%%g
+s%@BUILD_SERVER@%lxdoom-game-server%g
+s%@MIXER_CFLAGS@%%g
+s%@MIXER_LIBS@%%g
+s%@NET_CFLAGS@%-DHAVE_NET -DHAVE_BSD_NET%g
+s%@NET_LIBS@%%g
 
 CEOF
 
@@ -109,8 +134,7 @@ if test -z "$ac_sed_cmds"; then
   ac_sed_cmds=cat
 fi
 
-CONFIG_FILES=${CONFIG_FILES-"Makefile
-"}
+CONFIG_FILES=${CONFIG_FILES-"Makefile src/Makefile doc/Makefile data/Makefile lsdldoom.spec"}
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
   # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
   case "$ac_file" in
@@ -167,6 +191,130 @@ s%@INSTALL@%$INSTALL%g
 fi; done
 rm -f conftest.s*
 
+# These sed commands are passed to sed as "A NAME B NAME C VALUE D", where
+# NAME is the cpp macro being defined and VALUE is the value it is being given.
+#
+# ac_d sets the value in "#define NAME VALUE" lines.
+ac_dA='s%^\([ 	]*\)#\([ 	]*define[ 	][ 	]*\)'
+ac_dB='\([ 	][ 	]*\)[^ 	]*%\1#\2'
+ac_dC='\3'
+ac_dD='%g'
+# ac_u turns "#undef NAME" with trailing blanks into "#define NAME VALUE".
+ac_uA='s%^\([ 	]*\)#\([ 	]*\)undef\([ 	][ 	]*\)'
+ac_uB='\([ 	]\)%\1#\2define\3'
+ac_uC=' '
+ac_uD='\4%g'
+# ac_e turns "#undef NAME" without trailing blanks into "#define NAME VALUE".
+ac_eA='s%^\([ 	]*\)#\([ 	]*\)undef\([ 	][ 	]*\)'
+ac_eB='$%\1#\2define\3'
+ac_eC=' '
+ac_eD='%g'
 
+if test "${CONFIG_HEADERS+set}" != set; then
+  CONFIG_HEADERS="config.h"
+fi
+for ac_file in .. $CONFIG_HEADERS; do if test "x$ac_file" != x..; then
+  # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
+  case "$ac_file" in
+  *:*) ac_file_in=`echo "$ac_file"|sed 's%[^:]*:%%'`
+       ac_file=`echo "$ac_file"|sed 's%:.*%%'` ;;
+  *) ac_file_in="${ac_file}.in" ;;
+  esac
+
+  echo creating $ac_file
+
+  rm -f conftest.frag conftest.in conftest.out
+  ac_file_inputs=`echo $ac_file_in|sed -e "s%^%$ac_given_srcdir/%" -e "s%:% $ac_given_srcdir/%g"`
+  cat $ac_file_inputs > conftest.in
+
+  cat > conftest.frag <<CEOF
+${ac_dA}I386${ac_dB}I386${ac_dC}1${ac_dD}
+${ac_uA}I386${ac_uB}I386${ac_uC}1${ac_uD}
+${ac_eA}I386${ac_eB}I386${ac_eC}1${ac_eD}
+${ac_dA}PACKAGE${ac_dB}PACKAGE${ac_dC}"lsdldoom"${ac_dD}
+${ac_uA}PACKAGE${ac_uB}PACKAGE${ac_uC}"lsdldoom"${ac_uD}
+${ac_eA}PACKAGE${ac_eB}PACKAGE${ac_eC}"lsdldoom"${ac_eD}
+${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"1.4.4.4"${ac_dD}
+${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"1.4.4.4"${ac_uD}
+${ac_eA}VERSION${ac_eB}VERSION${ac_eC}"1.4.4.4"${ac_eD}
+${ac_dA}STDC_HEADERS${ac_dB}STDC_HEADERS${ac_dC}1${ac_dD}
+${ac_uA}STDC_HEADERS${ac_uB}STDC_HEADERS${ac_uC}1${ac_uD}
+${ac_eA}STDC_HEADERS${ac_eB}STDC_HEADERS${ac_eC}1${ac_eD}
+CEOF
+  sed -f conftest.frag conftest.in > conftest.out
+  rm -f conftest.in
+  mv conftest.out conftest.in
+
+  cat > conftest.frag <<CEOF
+${ac_dA}stricmp${ac_dB}stricmp${ac_dC}strcasecmp${ac_dD}
+${ac_uA}stricmp${ac_uB}stricmp${ac_uC}strcasecmp${ac_uD}
+${ac_eA}stricmp${ac_eB}stricmp${ac_eC}strcasecmp${ac_eD}
+${ac_dA}strnicmp${ac_dB}strnicmp${ac_dC}strncasecmp${ac_dD}
+${ac_uA}strnicmp${ac_uB}strnicmp${ac_uC}strncasecmp${ac_uD}
+${ac_eA}strnicmp${ac_eB}strnicmp${ac_eC}strncasecmp${ac_eD}
+${ac_dA}HAVE_INET_ATON${ac_dB}HAVE_INET_ATON${ac_dC}1${ac_dD}
+${ac_uA}HAVE_INET_ATON${ac_uB}HAVE_INET_ATON${ac_uC}1${ac_uD}
+${ac_eA}HAVE_INET_ATON${ac_eB}HAVE_INET_ATON${ac_eC}1${ac_eD}
+${ac_dA}HAVE_VSNPRINTF${ac_dB}HAVE_VSNPRINTF${ac_dC}1${ac_dD}
+${ac_uA}HAVE_VSNPRINTF${ac_uB}HAVE_VSNPRINTF${ac_uC}1${ac_uD}
+${ac_eA}HAVE_VSNPRINTF${ac_eB}HAVE_VSNPRINTF${ac_eC}1${ac_eD}
+CEOF
+  sed -f conftest.frag conftest.in > conftest.out
+  rm -f conftest.in
+  mv conftest.out conftest.in
+
+  cat > conftest.frag <<CEOF
+${ac_dA}HAVE_SNPRINTF${ac_dB}HAVE_SNPRINTF${ac_dC}1${ac_dD}
+${ac_uA}HAVE_SNPRINTF${ac_uB}HAVE_SNPRINTF${ac_uC}1${ac_uD}
+${ac_eA}HAVE_SNPRINTF${ac_eB}HAVE_SNPRINTF${ac_eC}1${ac_eD}
+${ac_dA}HAVE_SYS_IOCTL_H${ac_dB}HAVE_SYS_IOCTL_H${ac_dC}1${ac_dD}
+${ac_uA}HAVE_SYS_IOCTL_H${ac_uB}HAVE_SYS_IOCTL_H${ac_uC}1${ac_uD}
+${ac_eA}HAVE_SYS_IOCTL_H${ac_eB}HAVE_SYS_IOCTL_H${ac_eC}1${ac_eD}
+${ac_dA}HIGHRES${ac_dB}HIGHRES${ac_dC}1${ac_dD}
+${ac_uA}HIGHRES${ac_uB}HIGHRES${ac_uC}1${ac_uD}
+${ac_eA}HIGHRES${ac_eB}HIGHRES${ac_eC}1${ac_eD}
+${ac_dA}SIMPLECHECKS${ac_dB}SIMPLECHECKS${ac_dC}1${ac_dD}
+${ac_uA}SIMPLECHECKS${ac_uB}SIMPLECHECKS${ac_uC}1${ac_uD}
+${ac_eA}SIMPLECHECKS${ac_eB}SIMPLECHECKS${ac_eC}1${ac_eD}
+CEOF
+  sed -f conftest.frag conftest.in > conftest.out
+  rm -f conftest.in
+  mv conftest.out conftest.in
+
+  cat > conftest.frag <<CEOF
+${ac_dA}ZONEIDCHECK${ac_dB}ZONEIDCHECK${ac_dC}1${ac_dD}
+${ac_uA}ZONEIDCHECK${ac_uB}ZONEIDCHECK${ac_uC}1${ac_uD}
+${ac_eA}ZONEIDCHECK${ac_eB}ZONEIDCHECK${ac_eC}1${ac_eD}
+${ac_dA}DOOMWADDIR${ac_dB}DOOMWADDIR${ac_dC}"/usr/local/share/games/doom"${ac_dD}
+${ac_uA}DOOMWADDIR${ac_uB}DOOMWADDIR${ac_uC}"/usr/local/share/games/doom"${ac_uD}
+${ac_eA}DOOMWADDIR${ac_eB}DOOMWADDIR${ac_eC}"/usr/local/share/games/doom"${ac_eD}
+s%^[ 	]*#[ 	]*undef[ 	][ 	]*[a-zA-Z_][a-zA-Z_0-9]*%/* & */%
+CEOF
+  sed -f conftest.frag conftest.in > conftest.out
+  rm -f conftest.in
+  mv conftest.out conftest.in
+
+  rm -f conftest.frag conftest.h
+  echo "/* $ac_file.  Generated automatically by configure.  */" > conftest.h
+  cat conftest.in >> conftest.h
+  rm -f conftest.in
+  if cmp -s $ac_file conftest.h 2>/dev/null; then
+    echo "$ac_file is unchanged"
+    rm -f conftest.h
+  else
+    # Remove last slash and all that follows it.  Not all systems have dirname.
+      ac_dir=`echo $ac_file|sed 's%/[^/][^/]*$%%'`
+      if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
+      # The file is in a subdirectory.
+      test ! -d "$ac_dir" && mkdir "$ac_dir"
+    fi
+    rm -f $ac_file
+    mv conftest.h $ac_file
+  fi
+fi; done
+
+
+
+test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h
 
 exit 0

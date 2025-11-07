@@ -1,23 +1,177 @@
 This file contains any messages produced by compilers while
 running configure, to aid debugging if configure makes a mistake.
 
-configure:563: checking for a BSD compatible install
-configure:616: checking whether build environment is sane
-configure:673: checking whether make sets ${MAKE}
-configure:719: checking for working aclocal
-configure:732: checking for working autoconf
-configure:745: checking for working automake
-configure:758: checking for working autoheader
-configure:771: checking for working makeinfo
-configure:787: checking whether make sets ${MAKE}
-configure:816: checking for gcc
-configure:929: checking whether the C compiler (gcc  ) works
-configure:945: gcc -o conftest    conftest.c  1>&5
-configure:971: checking whether the C compiler (gcc  ) is a cross-compiler
-configure:976: checking whether we are using GNU C
-configure:985: gcc -E conftest.c
-configure:1004: checking whether gcc accepts -g
-configure:1047: checking for a BSD compatible install
-configure:1142: checking for sdl-config
-configure:1177: checking for SDL - version >= 1.0.1
-configure:1259: gcc -o conftest -g -O2 -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT   conftest.c  -L/usr/lib -lSDL 1>&5
+configure:594: checking host system type
+configure:615: checking target system type
+configure:633: checking build system type
+configure:717: checking for a BSD compatible install
+configure:770: checking whether build environment is sane
+configure:827: checking whether make sets ${MAKE}
+configure:873: checking for working aclocal
+configure:886: checking for working autoconf
+configure:899: checking for working automake
+configure:912: checking for working autoheader
+configure:925: checking for working makeinfo
+configure:945: checking for gcc
+configure:1058: checking whether the C compiler (gcc -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer ) works
+configure:1074: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure:1071: warning: return type defaults to `int'
+configure:1100: checking whether the C compiler (gcc -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer ) is a cross-compiler
+configure:1105: checking whether we are using GNU C
+configure:1114: gcc -E conftest.c
+configure:1133: checking whether gcc accepts -g
+configure:1197: checking how to run the C preprocessor
+configure:1218: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1277: checking for ANSI C header files
+configure:1290: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1357: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure: In function `main':
+configure:1352: warning: implicit declaration of function `exit'
+configure:1381: checking for size_t
+configure:1414: checking for pid_t
+configure:1447: checking for uid_t in sys/types.h
+configure:1482: checking for sys_siglist declaration in signal.h or unistd.h
+configure:1499: gcc -c -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer  conftest.c 1>&5
+configure: In function `main':
+configure:1495: error: `sys_siglist' undeclared (first use in this function)
+configure:1495: error: (Each undeclared identifier is reported only once
+configure:1495: error: for each function it appears in.)
+configure:1495: warning: unused variable `msg'
+configure: failed program was:
+#line 1487 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+#include <signal.h>
+/* NetBSD declares sys_siglist in unistd.h.  */
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+int main() {
+char *msg = *(sys_siglist + 1);
+; return 0; }
+configure:1521: checking for working const
+configure:1575: gcc -c -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer  conftest.c 1>&5
+configure: In function `main':
+configure:1549: warning: unused variable `s'
+configure:1569: warning: unused variable `foo'
+configure:1531: warning: unused variable `x'
+configure:1537: warning: unused variable `zero'
+configure:1566: warning: 'b' might be used uninitialized in this function
+configure:1548: warning: 't' might be used uninitialized in this function
+configure:1596: checking for inline
+configure:1610: gcc -c -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer  conftest.c 1>&5
+configure:1606: warning: return type defaults to `int'
+configure: In function `main':
+configure:1605: warning: control reaches end of non-void function
+configure:1678: checking for sdl-config
+configure:1713: checking for SDL - version >= 1.0.1
+configure:1877: checking for Mix_LoadMUS in -lSDL_mixer
+configure:1896: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c -lSDL_mixer   1>&5
+/usr/lib/gcc/i686-pc-cygwin/3.4.4/../../../../i686-pc-cygwin/bin/ld: cannot find -lSDL_mixer
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 1885 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char Mix_LoadMUS();
+
+int main() {
+Mix_LoadMUS()
+; return 0; }
+configure:1921: checking for SDLNet_UDP_Open in -lSDL_net
+configure:1940: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c -lSDL_net   1>&5
+/usr/lib/gcc/i686-pc-cygwin/3.4.4/../../../../i686-pc-cygwin/bin/ld: cannot find -lSDL_net
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 1929 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char SDLNet_UDP_Open();
+
+int main() {
+SDLNet_UDP_Open()
+; return 0; }
+configure:1970: checking for socket
+configure:1998: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure:2044: checking for stricmp
+configure:2072: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+/cygdrive/c/DOCUME~1/jyu/LOCALS~1/Temp/ccIP3Mni.o:conftest.c:(.text+0x19): undefined reference to `_stricmp'
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 2049 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char stricmp(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char stricmp();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_stricmp) || defined (__stub___stricmp)
+choke me
+#else
+stricmp();
+#endif
+
+; return 0; }
+configure:2096: checking for strnicmp
+configure:2124: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+/cygdrive/c/DOCUME~1/jyu/LOCALS~1/Temp/cc0F2yIh.o:conftest.c:(.text+0x19): undefined reference to `_strnicmp'
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 2101 "configure"
+#include "confdefs.h"
+/* System header to define __stub macros and hopefully few prototypes,
+    which can conflict with char strnicmp(); below.  */
+#include <assert.h>
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char strnicmp();
+
+int main() {
+
+/* The GNU C library defines this for functions which it implements
+    to always fail with ENOSYS.  Some functions are actually named
+    something starting with __ and the normal name is an alias.  */
+#if defined (__stub_strnicmp) || defined (__stub___strnicmp)
+choke me
+#else
+strnicmp();
+#endif
+
+; return 0; }
+configure:2150: checking for inet_aton
+configure:2178: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure:2205: checking for vsnprintf
+configure:2233: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure:2217: warning: conflicting types for built-in function 'vsnprintf'
+configure:2205: checking for snprintf
+configure:2233: gcc -o conftest -O2 -Wall -Winline -Wcast-align -Wwrite-strings -ffast-math -fomit-frame-pointer   conftest.c  1>&5
+configure:2217: warning: conflicting types for built-in function 'snprintf'
+configure:2262: checking for linux/joystick.h
+configure:2272: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2268:28: linux/joystick.h: No such file or directory
+configure: failed program was:
+#line 2267 "configure"
+#include "confdefs.h"
+#include <linux/joystick.h>
+configure:2302: checking for sys/ioctl.h
+configure:2312: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2342: checking for sys/filio.h
+configure:2352: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2348:23: sys/filio.h: No such file or directory
+configure: failed program was:
+#line 2347 "configure"
+#include "confdefs.h"
+#include <sys/filio.h>

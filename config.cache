@@ -12,11 +12,30 @@
 # config.status only pays attention to the cache file if you give it the
 # --recheck option to rerun configure.
 #
-ac_cv_path_SDL_CONFIG=${ac_cv_path_SDL_CONFIG='/usr/bin/sdl-config'}
+ac_cv_c_const=${ac_cv_c_const=yes}
+ac_cv_c_inline=${ac_cv_c_inline=inline}
+ac_cv_decl_sys_siglist=${ac_cv_decl_sys_siglist=no}
+ac_cv_func_inet_aton=${ac_cv_func_inet_aton=yes}
+ac_cv_func_snprintf=${ac_cv_func_snprintf=yes}
+ac_cv_func_socket=${ac_cv_func_socket=yes}
+ac_cv_func_stricmp=${ac_cv_func_stricmp=no}
+ac_cv_func_strnicmp=${ac_cv_func_strnicmp=no}
+ac_cv_func_vsnprintf=${ac_cv_func_vsnprintf=yes}
+ac_cv_header_linux_joystick_h=${ac_cv_header_linux_joystick_h=no}
+ac_cv_header_stdc=${ac_cv_header_stdc=yes}
+ac_cv_header_sys_filio_h=${ac_cv_header_sys_filio_h=no}
+ac_cv_header_sys_ioctl_h=${ac_cv_header_sys_ioctl_h=yes}
+ac_cv_lib_SDL_mixer_Mix_LoadMUS=${ac_cv_lib_SDL_mixer_Mix_LoadMUS=no}
+ac_cv_lib_SDL_net_SDLNet_UDP_Open=${ac_cv_lib_SDL_net_SDLNet_UDP_Open=no}
+ac_cv_path_SDL_CONFIG=${ac_cv_path_SDL_CONFIG=no}
 ac_cv_path_install=${ac_cv_path_install='/usr/bin/install -c'}
-ac_cv_prog_CC=${ac_cv_prog_CC='gcc'}
-ac_cv_prog_cc_cross=${ac_cv_prog_cc_cross='no'}
-ac_cv_prog_cc_g=${ac_cv_prog_cc_g='yes'}
-ac_cv_prog_cc_works=${ac_cv_prog_cc_works='yes'}
-ac_cv_prog_gcc=${ac_cv_prog_gcc='yes'}
-ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set='yes'}
+ac_cv_prog_CC=${ac_cv_prog_CC=gcc}
+ac_cv_prog_CPP=${ac_cv_prog_CPP='gcc -E'}
+ac_cv_prog_cc_cross=${ac_cv_prog_cc_cross=no}
+ac_cv_prog_cc_g=${ac_cv_prog_cc_g=yes}
+ac_cv_prog_cc_works=${ac_cv_prog_cc_works=yes}
+ac_cv_prog_gcc=${ac_cv_prog_gcc=yes}
+ac_cv_prog_make_make_set=${ac_cv_prog_make_make_set=yes}
+ac_cv_type_pid_t=${ac_cv_type_pid_t=yes}
+ac_cv_type_size_t=${ac_cv_type_size_t=yes}
+ac_cv_type_uid_t=${ac_cv_type_uid_t=yes}

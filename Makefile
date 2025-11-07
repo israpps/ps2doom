@@ -11,13 +11,19 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
+#
+# Top level automake Makefile.am for LsdlDoom
+#
+# $Id: Makefile.am,v 1.5 2000/03/19 16:28:37 cph Exp $
+#
+
 
 SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = .
 prefix = /usr/local
-exec_prefix = ${prefix}
+exec_prefix = /usr/local
 
 bindir = ${exec_prefix}/bin
 sbindir = ${exec_prefix}/sbin
@@ -34,16 +40,16 @@ oldincludedir = /usr/include
 
 DESTDIR =
 
-pkgdatadir = $(datadir)/sdldoom
-pkglibdir = $(libdir)/sdldoom
-pkgincludedir = $(includedir)/sdldoom
+pkgdatadir = $(datadir)/lsdldoom
+pkglibdir = $(libdir)/lsdldoom
+pkgincludedir = $(includedir)/lsdldoom
 
 top_builddir = .
 
-ACLOCAL = aclocal
-AUTOCONF = autoconf
-AUTOMAKE = automake
-AUTOHEADER = autoheader
+ACLOCAL = /home/jyu/lsdldoom-1.4.4.4/missing aclocal
+AUTOCONF = /home/jyu/lsdldoom-1.4.4.4/missing autoconf
+AUTOMAKE = /home/jyu/lsdldoom-1.4.4.4/missing automake
+AUTOHEADER = /home/jyu/lsdldoom-1.4.4.4/missing autoheader
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
@@ -57,66 +63,52 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+build_alias = i686-pc-cygwin32
+build_triplet = i686-pc-cygwin32
+host_alias = i686-pc-cygwin32
+host_triplet = i686-pc-cygwin32
+target_alias = i686-pc-cygwin32
+target_triplet = i686-pc-cygwin32
+BUILD_SDLDOOM = 
+BUILD_SERVER = lxdoom-game-server
 CC = gcc
-MAKEINFO = /home/lukasz/code/ps2/projects/sdldoom-1.10/missing makeinfo
-PACKAGE = sdldoom
-SDL_CFLAGS = -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT
-SDL_CONFIG = /usr/bin/sdl-config
-SDL_LIBS = -L/usr/lib -lSDL
-VERSION = 1.10
+MAKEINFO = makeinfo
+MIXER_CFLAGS = 
+MIXER_LIBS = 
+NET_CFLAGS = -DHAVE_NET -DHAVE_BSD_NET
+NET_LIBS = 
+PACKAGE = lsdldoom
+SDL_CFLAGS = 
+SDL_CONFIG = no
+SDL_LIBS = 
+VERSION = 1.4.4.4
 
-EXTRA_DIST =  	Changelog			DOOMLIC.TXT			FILES				FILES2				README.SDL			README.asm			README.b			README.book			README.gl			TODO
-
-
-bin_PROGRAMS = doom
-
-doom_SOURCES =  	am_map.c			am_map.h			d_englsh.h			d_event.h			d_french.h			d_items.c			d_items.h			d_main.c			d_main.h			d_net.c				d_net.h				d_player.h			d_textur.h			d_think.h			d_ticcmd.h			doomdata.h			doomdef.c			doomdef.h			doomstat.c			doomstat.h			doomtype.h			dstrings.c			dstrings.h			f_finale.c			f_finale.h			f_wipe.c			f_wipe.h			g_game.c			g_game.h			hu_lib.c			hu_lib.h			hu_stuff.c			hu_stuff.h			i_main.c			i_net.c				i_net.h				i_sound.c			i_sound.h			i_system.c			i_system.h			i_video.c			i_video.h			info.c				info.h				m_argv.c			m_argv.h			m_bbox.c			m_bbox.h			m_cheat.c			m_cheat.h			m_fixed.c			m_fixed.h			m_menu.c			m_menu.h			m_misc.c			m_misc.h			m_random.c			m_random.h			m_swap.c			m_swap.h			p_ceilng.c			p_doors.c			p_enemy.c			p_floor.c			p_inter.c			p_inter.h			p_lights.c			p_local.h			p_map.c				p_maputl.c			p_mobj.c			p_mobj.h			p_plats.c			p_pspr.c			p_pspr.h			p_saveg.c			p_saveg.h			p_setup.c			p_setup.h			p_sight.c			p_spec.c			p_spec.h			p_switch.c			p_telept.c			p_tick.c			p_tick.h			p_user.c			r_bsp.c				r_bsp.h				r_data.c			r_data.h			r_defs.h			r_draw.c			r_draw.h			r_local.h			r_main.c			r_main.h			r_plane.c			r_plane.h			r_segs.c			r_segs.h			r_sky.c				r_sky.h				r_state.h			r_things.c			r_things.h			s_sound.c			s_sound.h			sounds.c			sounds.h			st_lib.c			st_lib.h			st_stuff.c			st_stuff.h			tables.c			tables.h			v_video.c			v_video.h			w_wad.c				w_wad.h				wi_stuff.c			wi_stuff.h			z_zone.c			z_zone.h
-
-
-doom_LDADD = -lm
+docdir = $(prefix)/share/doc/lsdldoom
+SUBDIRS = doc data src
+EXTRA_DIST = lsdldoom.spec.in
+doc_DATA = README COPYING AUTHORS
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_CLEAN_FILES = 
-PROGRAMS =  $(bin_PROGRAMS)
+CONFIG_HEADER = config.h
+CONFIG_CLEAN_FILES =  lsdldoom.spec
+DATA =  $(doc_DATA)
 
-
-DEFS =  -DPACKAGE=\"sdldoom\" -DVERSION=\"1.10\"  -I. -I$(srcdir) 
-CPPFLAGS = 
-LDFLAGS = 
-LIBS =  -L/usr/lib -lSDL
-doom_OBJECTS =  am_map.o d_items.o d_main.o d_net.o doomdef.o doomstat.o \
-dstrings.o f_finale.o f_wipe.o g_game.o hu_lib.o hu_stuff.o i_main.o \
-i_net.o i_sound.o i_system.o i_video.o info.o m_argv.o m_bbox.o \
-m_cheat.o m_fixed.o m_menu.o m_misc.o m_random.o m_swap.o p_ceilng.o \
-p_doors.o p_enemy.o p_floor.o p_inter.o p_lights.o p_map.o p_maputl.o \
-p_mobj.o p_plats.o p_pspr.o p_saveg.o p_setup.o p_sight.o p_spec.o \
-p_switch.o p_telept.o p_tick.o p_user.o r_bsp.o r_data.o r_draw.o \
-r_main.o r_plane.o r_segs.o r_sky.o r_things.o s_sound.o sounds.o \
-st_lib.o st_stuff.o tables.o v_video.o w_wad.o wi_stuff.o z_zone.o
-doom_DEPENDENCIES = 
-doom_LDFLAGS = 
-CFLAGS = -g -O2 -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DIST_COMMON =  Makefile.am Makefile.in TODO acinclude.m4 aclocal.m4 \
-configure configure.in install-sh missing mkinstalldirs
+DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
+Makefile.am Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 \
+config.guess config.h.in config.sub configure configure.in install-sh \
+lsdldoom.spec.in missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
-TAR = gtar
+TAR = tar
 GZIP_ENV = --best
-SOURCES = $(doom_SOURCES)
-OBJECTS = $(doom_OBJECTS)
-
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --foreign --include-deps Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu Makefile
 
-Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
@@ -128,53 +120,109 @@ config.status: $(srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 $(srcdir)/configure: $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENCIES)
 	cd $(srcdir) && $(AUTOCONF)
 
-mostlyclean-binPROGRAMS:
+config.h: stamp-h
+	@if test ! -f $@; then \
+		rm -f stamp-h; \
+		$(MAKE) stamp-h; \
+	else :; fi
+stamp-h: $(srcdir)/config.h.in $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES= CONFIG_HEADERS=config.h \
+	     $(SHELL) ./config.status
+	@echo timestamp > stamp-h 2> /dev/null
+$(srcdir)/config.h.in: $(srcdir)/stamp-h.in
+	@if test ! -f $@; then \
+		rm -f $(srcdir)/stamp-h.in; \
+		$(MAKE) $(srcdir)/stamp-h.in; \
+	else :; fi
+$(srcdir)/stamp-h.in: $(top_srcdir)/configure.in $(ACLOCAL_M4) acconfig.h
+	cd $(top_srcdir) && $(AUTOHEADER)
+	@echo timestamp > $(srcdir)/stamp-h.in 2> /dev/null
 
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+mostlyclean-hdr:
 
-distclean-binPROGRAMS:
+clean-hdr:
 
-maintainer-clean-binPROGRAMS:
+distclean-hdr:
+	-rm -f config.h
 
-install-binPROGRAMS: $(bin_PROGRAMS)
+maintainer-clean-hdr:
+lsdldoom.spec: $(top_builddir)/config.status lsdldoom.spec.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+install-docDATA: $(doc_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
-	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
-	  else :; fi; \
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	@list='$(doc_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(docdir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(docdir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(docdir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(docdir)/$$p; \
+	  fi; fi; \
 	done
 
-uninstall-binPROGRAMS:
+uninstall-docDATA:
 	@$(NORMAL_UNINSTALL)
-	list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	list='$(doc_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(docdir)/$$p; \
 	done
 
-.c.o:
-	$(COMPILE) -c $<
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
 
-.s.o:
-	$(COMPILE) -c $<
 
-.S.o:
-	$(COMPILE) -c $<
 
-mostlyclean-compile:
-	-rm -f *.o core *.core
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
 
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-doom: $(doom_OBJECTS) $(doom_DEPENDENCIES)
-	@rm -f doom
-	$(LINK) $(doom_LDFLAGS) $(doom_OBJECTS) $(doom_LDADD) $(LIBS)
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	dot_seen=no; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	  test "$$subdir" = "." && dot_seen=yes; \
+	done; \
+	test "$$dot_seen" = "no" && rev=". $$rev"; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
 
 tags: TAGS
 
@@ -186,15 +234,20 @@ ID: $(HEADERS) $(SOURCES) $(LISP)
 	here=`pwd` && cd $(srcdir) \
 	  && mkid -f$$here/ID $$unique $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS: tags-recursive $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+   if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+   fi; \
+	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
 	  awk '    { files[$$0] = 1; } \
 	       END { for (i in files) print i; }'`; \
-	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
-	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+	test -z "$(ETAGS_ARGS)config.h.in$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags config.h.in $$unique $(LISP) -o $$here/TAGS)
 
 mostlyclean-tags:
 
@@ -243,6 +296,11 @@ distdir: $(DISTFILES)
 	-rm -rf $(distdir)
 	mkdir $(distdir)
 	-chmod 777 $(distdir)
+	here=`cd $(top_builddir) && pwd`; \
+	top_distdir=`cd $(distdir) && pwd`; \
+	distdir=`cd $(distdir) && pwd`; \
+	cd $(top_srcdir) \
+	  && $(AUTOMAKE) --include-deps --build-dir=$$here --srcdir-name=$(top_srcdir) --output-dir=$$top_distdir --gnu Makefile
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -253,31 +311,45 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+	for subdir in $(SUBDIRS); do \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    chmod 777 $(distdir)/$$subdir; \
+	    (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir=../$(distdir) distdir=../$(distdir)/$$subdir distdir) \
+	      || exit 1; \
+	  fi; \
+	done
 info-am:
-info: info-am
+info: info-recursive
 dvi-am:
-dvi: dvi-am
+dvi: dvi-recursive
 check-am: all-am
-check: check-am
+check: check-recursive
 installcheck-am:
-installcheck: installcheck-am
-install-exec-am: install-binPROGRAMS
-install-exec: install-exec-am
+installcheck: installcheck-recursive
+all-recursive-am: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
-install-data-am:
-install-data: install-data-am
+install-exec-am:
+install-exec: install-exec-recursive
+
+install-data-am: install-docDATA
+install-data: install-data-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
-install: install-am
-uninstall-am: uninstall-binPROGRAMS
-uninstall: uninstall-am
-all-am: Makefile $(PROGRAMS)
-all-redirect: all-am
+install: install-recursive
+uninstall-am: uninstall-docDATA
+uninstall: uninstall-recursive
+all-am: Makefile $(DATA) config.h
+all-redirect: all-recursive-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
-installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(bindir)
+installdirs: installdirs-recursive
+installdirs-am:
+	$(mkinstalldirs)  $(DESTDIR)$(docdir)
 
 
 mostlyclean-generic:
@@ -289,42 +361,64 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
-mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-hdr mostlyclean-tags mostlyclean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
-clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-hdr clean-tags clean-generic mostlyclean-am
 
-clean: clean-am
+clean: clean-recursive
 
-distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-hdr distclean-tags distclean-generic clean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 	-rm -f config.status
 
-maintainer-clean-am:  maintainer-clean-binPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
+maintainer-clean-am:  maintainer-clean-hdr maintainer-clean-tags \
 		maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 	-rm -f config.status
 
-.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
-maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
-install-data-am install-data install-am install uninstall-am uninstall \
-all-redirect all-am all installdirs mostlyclean-generic \
-distclean-generic clean-generic maintainer-clean-generic clean \
-mostlyclean distclean maintainer-clean
+.PHONY: mostlyclean-hdr distclean-hdr clean-hdr maintainer-clean-hdr \
+uninstall-docDATA install-docDATA install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
+dvi-am dvi check check-am installcheck-am installcheck all-recursive-am \
+install-exec-am install-exec install-data-am install-data install-am \
+install uninstall-am uninstall all-redirect all-am all installdirs-am \
+installdirs mostlyclean-generic distclean-generic clean-generic \
+maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+rpm:	lsdldoom.spec dist
+	mv lsdldoom-1.4.4.4.tar.gz /usr/src/redhat/SOURCES
+	rpm -bb lsdldoom.spec --target=i586-pc-linux-gnu
+
+#
+# $Log: Makefile.am,v $
+# Revision 1.5  2000/03/19 16:28:37  cph
+# Fix documentation directory
+#
+# Revision 1.4  2000/03/16 20:14:08  cph
+# Add docs to make install, add RPM building
+#
+# Revision 1.3  1999/10/12 17:48:37  cphipps
+# Remove CREDITS
+#
+# Revision 1.2  1999/10/01 20:38:00  cphipps
+# Added ChangeLog to distributed files
+#
+# Revision 1.1  1999/09/10 20:08:16  cphipps
+# Initial revision
+#
+#
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
