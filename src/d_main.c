@@ -821,16 +821,16 @@ static char* FindWADFile(const char* wfname, const char* ext)
 			d = "";
 			break;
 		case 1:
-			d = "host:";
-			break;
-		case 2:
-			d = "hdd0:/+DOOM/";
-			break;
-		case 3:
 			d = "mass:/";
 			break;
-		case 4:
+		case 2:
+			d = "mmce0:";
+			break;
+		case 3:
 			d = "cdrom:\\";
+			break;
+		case 4:
+			d = "host:";
 			break;
 		case 5:
 			d = D_DoomExeDir();
@@ -849,6 +849,7 @@ static char* FindWADFile(const char* wfname, const char* ext)
 		if (access(p,F_OK))
 			strcat(p, ext);
 		if (!access(p,F_OK)) {
+			scr_printf(" found %s\n", p);
 			lprintf(LO_INFO, " found %s\n", p);
 			return p;
 		}
