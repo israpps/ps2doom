@@ -95,7 +95,9 @@ void I_Error(const char *error, ...)
 #endif
   va_end(argptr);
   fprintf(stderr,"%s\n",errmsg);
+	scr_printf("\n\n%s\n", errmsg);
 
+	SleepThread();
   I_SafeExit(-1);
 }
 

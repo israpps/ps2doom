@@ -66,7 +66,9 @@ void I_Error(const char *error, ...) // killough 3/20/98: add const
 	va_list argptr;
 	va_start(argptr,error);
 	vsnprintf(errmsg,sizeof(errmsg),error,argptr);
+	scr_printf("\n\n%s\n", errmsg);
 	va_end(argptr);
+	SleepThread();
 	exit(-1);
 }
 
