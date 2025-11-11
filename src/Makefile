@@ -1,5 +1,8 @@
 BINDIR ?= ../bin/
-EE_BIN = $(BINDIR)DOOM.ELF
+BINNAME ?= DOOM
+EE_BIN ?= $(BINDIR)$(BINNAME).ELF
+
+ARCADE ?= 0
 
 EE_INCS = -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/ports/include/zlib
 EE_LIBS = -L$(PS2SDK)/ports/lib -lsdlmixer -lsdl -lc -lm -ldebug
@@ -27,10 +30,28 @@ dstrings.o p_inter.o wi_stuff.o r_draw.o \
 f_finale.o p_lights.o z_bmalloc.o p_map.o \
 r_main.o f_wipe.o z_zone.o p_maputl.o \
 r_plane.o d_client.o l_udp.o \
-usbd.s usbhdfsd.s
+usbd.s usbhdfsd.s sio2man.s
 
 
-all: $(BINDIR) $(EE_BIN)
+ifeq ($(ARCADE),1)
+  BINNAME = ACDOOM
+  EE_CFLAGS += -DARCADE
+  IOPRP = iop/IOPRP.IMG
+  EE_OBJS += dongleman.s
+else
+  EE_OBJS += mcman.s
+endif
+
+ifdef IOPRP
+  EE_CFLAGS += -DIOPRP
+  EE_LIBS += -liopreboot
+  EE_OBJS += ioprp.s
+
+ioprp.s: $(IOPRP)
+	bin2s $< $@ ioprp_img
+endif
+
+all: $(EE_BIN) $(BINDIR)
 
 release: clean all
 	cp ../data/boomlump.wad $(BINDIR)boomlump.wad
@@ -38,11 +59,13 @@ release: clean all
 $(BINDIR):
 	mkdir -p $@
 
-usbd.s : usbd.irx
-	bin2s usbd.irx usbd.s usbd
+IRXTAG=$(notdir $(addsuffix _irx, $(basename $<)))
 
-usbhdfsd.s : usbhdfsd.irx
-	bin2s usbhdfsd.irx usbhdfsd.s usbhdfsd
+vpath %.irx iop/
+vpath %.irx $(PS2SDK)/iop/irx/
+
+%.s: %.irx
+	bin2s $< $@ $(IRXTAG)
 	
 clean:
 	rm -f $(EE_BIN) $(EE_OBJS) *.img

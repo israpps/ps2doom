@@ -189,7 +189,7 @@ unsigned int endoom_mode;
 
 static void PrintVer(void)
 {
-	printf("PS2Doom v%s\nCompiled on %s  %s\nCommit: %s", VERSION, __DATE__, __TIME__, __GITHASH__);
+	printf("PS2Doom v%s\nCompiled on %s  %s\nCommit: %s\n", VERSION, __DATE__, __TIME__, __GITHASH__);
 }
 
 /* I_EndDoom
@@ -322,49 +322,59 @@ void I_Quit (void)
 	}
 }
 
+#define IMPORT_BIN2C(x) extern unsigned char x[]; extern unsigned int size_##x;
 
-/*Declare usbd module */
-extern unsigned char usbd[];
-extern unsigned int size_usbd;
-/*Declare usbhdfsd module */
-extern unsigned char usbhdfsd[];
-extern unsigned int size_usbhdfsd;
+#define IRXB_EXECUTE(x, ret) SifExecModuleBuffer(x, size_##x, 0, NULL, ret) //load from embedded buffer
+#define IRXB_EXECUTE_ARGS(x, argc, argv, ret) SifExecModuleBuffer(x, size_##x, argc, argv, ret) //load from embedded buffer
+
+#define IRX_EXECUTE(path, ret) SifLoadStartModule(path, 0, NULL, ret) // Load from file
+#define IRX_EXECUTE_ARGS(path, argc, argv, ret) SifLoadStartModule(path, argc, argv, ret)// Load from file
+
+#define IRX_REPORT(x) printf("IRX:%s: id:%d, ret:%d\n", x, id, ret)
+
+IMPORT_BIN2C(usbd_irx)
+IMPORT_BIN2C(usbhdfsd_irx)
+IMPORT_BIN2C(sio2man_irx)
+#ifdef ARCADE
+IMPORT_BIN2C(dongleman_irx)
+#else
+IMPORT_BIN2C(mcman_irx)
+#endif
+#ifdef IOPRP
+IMPORT_BIN2C(ioprp_img)
+#endif
+
 #include <sifrpc.h>
-
-void LoadModule(char *path, int argc, char *argv) {
-	int ret;
-
-	ret = SifLoadModule(path, argc, argv);
-	if (ret < 0) {
-		printf("Could not load module %s: %d\n", path, ret);
-		SleepThread();
-	}
-}
 
 //#include <romfs_io.h>
 #include <sbv_patches.h>
 #include <iopcontrol_special.h>
 #include <iopcontrol.h>
 #include <kernel.h>
+#include <debug.h>
+#include <sio.h>
 
-int main(int argc, char **argv)
+int main (int argc, char **argv)
 {
-	int ret;
+	int ret, id;
 
     FlushCache(0);
     FlushCache(2);
     SifInitRpc(0);
 #ifdef IOPRP
+	sio_puts("IOPRP Reboot");
 	while (!SifIopRebootBuffer(ioprp_img, size_ioprp_img)) {};
 #else
 	while (!SifIopReset("", 0)) {};
 #endif
+	sio_puts("IOP Sync");
     while (!SifIopSync()) {};
     SifInitRpc(0);
+	SifLoadFileInit();
 	sbv_patch_enable_lmb(); // fixes SifExecModuleBuffer
 	sbv_patch_disable_prefix_check(); // castrates MODLOAD capability of checking if the IRX is loaded from a place that needs an KIRX
 
-
+	init_scr();
 	//rioInit();
 	/* Version info */
 	putchar('\n');
@@ -375,12 +385,31 @@ int main(int argc, char **argv)
 
 	SifInitRpc(0);
 
-	//LoadModule("rom0:XSIO2MAN", 0, NULL);
-	//LoadModule("rom0:XMCMAN", 0, NULL);
-	//LoadModule("rom0:XMCSERV", 0, NULL);
+	//El_isra: modified PS2 SDL is needed to load sio2man earlier, this way I can load DONGLEMAN and DAEMON. ensuring that DOOM can load freely without needing to worry about the arcade daemon
+	// https://github.com/israpps/ps2sdk-ports/tree/v1.0-arcade
+	id = IRXB_EXECUTE(sio2man_irx, &ret);
+	IRX_REPORT("sio2man");
+#ifdef ARCADE
+	id = IRXB_EXECUTE(dongleman_irx, &ret);
+	IRX_REPORT("dongleman");
+	id = IRX_EXECUTE("rom0:CDVDFSV", &ret); // arcade IOPBTCONF does not list it, add it back so cdvd RPC works
+	id = IRX_EXECUTE("mc0:ACJVLOAD.IRX", &ret); // Initializes the System246 VGA ports. dont check for errors. since PYTHON1 does not need this
 
-	SifExecModuleBuffer(usbd, size_usbd, 0, NULL, &ret);
-	SifExecModuleBuffer(usbhdfsd, size_usbhdfsd, 0, NULL, &ret);
+	id = IRX_EXECUTE("rom0:DAEMON", &ret);
+	IRX_REPORT("daemon");
+	if (id < 0 || ret != 0) {
+		scr_printf("\n\n\n\tFATAL: Could not load 'rom0:DAEMON'\n");
+		//SleepThread();
+	}
+#else
+	id = IRXB_EXECUTE(mcman_irx, &ret);
+	IRX_REPORT("mcman");
+#endif
+
+	id = IRXB_EXECUTE(usbd_irx, &ret);
+	IRX_REPORT("usbd");
+	id = IRXB_EXECUTE(usbhdfsd_irx, &ret);
+	IRX_REPORT("usbhdfsd");
 
 	/*
 	killough 1/98:
