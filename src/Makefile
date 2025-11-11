@@ -8,7 +8,7 @@ EE_INCS = -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/po
 EE_LIBS = -L$(PS2SDK)/ports/lib -lsdlmixer -lsdl -lc -lm -ldebug
 
 EE_CFLAGS = -DUSE_RWOPS -DHAVE_CONFIG_H -DHAVE_MIXER
-EE_CFLAGS += -DCOMMIT_HASH=\"$(shell git rev-parse --short HEAD)\"
+EE_CFLAGS += -D__GITHASH__=\"$(shell git rev-parse --short HEAD)\"
 EE_CXXFLAGS = -DSYS_LITTLE_ENDIAN -DSYS_NEED_ALIGNMENT -DBYPASS_PROTECTION -DUSE_RWOPS -DHAVE_CONFIG_H -DHAVE_MIXER
 
 EE_OBJS  = l_sdl.o \
@@ -38,6 +38,10 @@ ifeq ($(ARCADE),1)
   EE_CFLAGS += -DARCADE
   IOPRP = iop/IOPRP.IMG
   EE_OBJS += dongleman.s
+
+$(IOPRP):
+	wget "https://github.com/PS2Homebrew-arcade/proverb/raw/refs/heads/main/ioprp.img" -O $@
+
 else
   EE_OBJS += mcman.s
 endif

@@ -25,11 +25,13 @@ jobs:
       - name: Compile DOOM
         run: |
           rm -rf bin/
+          mkdir -p bin/
           make release -C src
 
       - name: Compile ARCADE DOOM
         run: |
           rm -rf System246/
+          mkdir -p System246/
           make release -C src BINDIR=../System246/ ARCADE=1
 
       - name: Upload artifacts
@@ -51,7 +53,7 @@ jobs:
           chmod +x ./compile_generic_package.sh
           ./compile_generic_package.sh
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: "mathieucarbou/marvinpinto-action-automatic-releases@latest"
         if: github.ref == 'refs/heads/master'
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -60,11 +62,13 @@ jobs:
           title: "Nightly build"
           files: |
             PS2DOOM.zip
+            PS2DOOM-ARCADE.zip
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - uses: "mathieucarbou/marvinpinto-action-automatic-releases@latest"
         if: startsWith(github.ref, 'refs/tags/v')
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           draft: true
           files: |
             PS2DOOM.zip
+            PS2DOOM-ARCADE.zip
