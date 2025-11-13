@@ -30,7 +30,7 @@ dstrings.o p_inter.o wi_stuff.o r_draw.o \
 f_finale.o p_lights.o z_bmalloc.o p_map.o \
 r_main.o f_wipe.o z_zone.o p_maputl.o \
 r_plane.o d_client.o l_udp.o \
-usbd.s usbhdfsd.s sio2man.s fileXio.s iomanX.s
+usbd.s bdm.s bdmfs_fatfs.s usbmass_bd.s sio2man.s fileXio.s iomanX.s
 
 
 ifeq ($(ARCADE),1)

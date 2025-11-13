@@ -336,13 +336,17 @@ void I_Quit (void)
 IMPORT_BIN2C(iomanX_irx)
 IMPORT_BIN2C(fileXio_irx)
 IMPORT_BIN2C(usbd_irx)
-IMPORT_BIN2C(usbhdfsd_irx)
+IMPORT_BIN2C(bdm_irx)
+IMPORT_BIN2C(bdmfs_fatfs_irx)
+IMPORT_BIN2C(usbmass_bd_irx)
 IMPORT_BIN2C(sio2man_irx)
+
 #ifdef ARCADE
 IMPORT_BIN2C(dongleman_irx)
 #else
 IMPORT_BIN2C(mcman_irx)
 #endif
+
 #ifdef IOPRP
 IMPORT_BIN2C(ioprp_img)
 #endif
@@ -384,7 +388,6 @@ int main (int argc, char **argv)
 	IRX_NEEDED("sio2man");
 	fileXioInit(); // binds to fileXio RPC service, also makes fopen/fread/etc... to use fileXio on the background instead of on-board FILEIO. safer and fixes I/O issues on arcade PS2
 	init_scr();
-	//rioInit();
 	/* Version info */
 	putchar('\n');
 	PrintVer();
@@ -412,8 +415,12 @@ int main (int argc, char **argv)
 
 	id = IRXB_EXECUTE(usbd_irx, &ret);
 	IRX_REPORT("usbd");
-	id = IRXB_EXECUTE(usbhdfsd_irx, &ret);
-	IRX_REPORT("usbhdfsd");
+	id = IRXB_EXECUTE(bdm_irx, &ret);
+	IRX_REPORT("bdm");
+	id = IRXB_EXECUTE(usbmass_bd_irx, &ret);
+	IRX_REPORT("usbmass_bd");
+	id = IRXB_EXECUTE(bdmfs_fatfs_irx, &ret);
+	IRX_REPORT("fatfs");
 
 	/*
 	killough 1/98:
