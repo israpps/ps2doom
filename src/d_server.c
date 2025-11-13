@@ -66,6 +66,8 @@ void I_Error(const char *error, ...) // killough 3/20/98: add const
 	va_list argptr;
 	va_start(argptr,error);
 	vsnprintf(errmsg,sizeof(errmsg),error,argptr);
+	scr_setbgcolor(0x800000); // BGR: arcade OSDSYS background
+	scr_clear();
 	scr_printf("\n\n%s\n", errmsg);
 	va_end(argptr);
 	SleepThread();

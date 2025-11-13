@@ -85,6 +85,10 @@ int lprintf(OutputLevels pri, const char *s, ...)
 
 void I_Error(const char *error, ...)
 {
+#ifdef ARCADE
+  const char SSND_ARGS[] = "-file\0rom0:ESDATA";
+  SifLoadStartModule("rom0:SSND", sizeof(SSND_ARGS), SSND_ARGS, NULL);
+#endif
   char errmsg[MAX_MESSAGE_SIZE];
   va_list argptr;
   va_start(argptr,error);
@@ -95,6 +99,10 @@ void I_Error(const char *error, ...)
 #endif
   va_end(argptr);
   fprintf(stderr,"%s\n",errmsg);
+#ifdef ARCADE
+	scr_setbgcolor(0x800000); // BGR: arcade OSDSYS background
+#endif
+	scr_clear();
 	scr_printf("\n\n%s\n", errmsg);
 
 	SleepThread();

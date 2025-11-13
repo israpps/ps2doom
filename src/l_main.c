@@ -382,7 +382,7 @@ int main (int argc, char **argv)
 	IRX_NEEDED("fileXio");
 	id = IRXB_EXECUTE(fileXio_irx, &ret);
 	IRX_NEEDED("sio2man");
-	fileXioInit(); // bin RPC service of fileXio, cant be before loading it
+	fileXioInit(); // binds to fileXio RPC service, also makes fopen/fread/etc... to use fileXio on the background instead of on-board FILEIO. safer and fixes I/O issues on arcade PS2
 	init_scr();
 	//rioInit();
 	/* Version info */
