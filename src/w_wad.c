@@ -144,6 +144,7 @@ static void W_AddFile(const char *filename, wad_source_t source)
   FILE	       *handle;
   int         length;
   int         startlump;
+  int         lread; // last readed
   filelump_t  *fileinfo, *fileinfo2free=NULL; //killough
   filelump_t  singleinfo;
 
@@ -182,7 +183,8 @@ static void W_AddFile(const char *filename, wad_source_t source)
     {
       // WAD file
 		//read(handle, &header, sizeof(header));
-		fread (&header, 1, sizeof(header), handle);
+		lread = fread (&header, 1, sizeof(header), handle);
+    if (lread != sizeof header) I_Error ("%s: could not read %d bytes of header, instead %d\n", __func__, sizeof header, lread);
       if (strncmp(header.identification,"IWAD",4) &&
           strncmp(header.identification,"PWAD",4))
         I_Error ("Wad file %s doesn't have IWAD or PWAD id\n", filename);
@@ -191,9 +193,10 @@ static void W_AddFile(const char *filename, wad_source_t source)
       length = header.numlumps*sizeof(filelump_t);
       fileinfo2free = fileinfo = malloc(length);    // killough
       //lseek(handle, header.infotableofs, SEEK_SET);
-	  //read(handle, fileinfo, length);
-	  fseek(handle, header.infotableofs, SEEK_SET);
-	  fread(fileinfo, 1, length, handle);
+	    //read(handle, fileinfo, length);
+	    fseek(handle, header.infotableofs, SEEK_SET);
+	    lread = fread(fileinfo, 1, length, handle);
+      if (lread != length) I_Error ("%s: could not read %d bytes lumpdata, instead %d\n", __func__, length, lread);
       numlumps += header.numlumps;
     }
 
