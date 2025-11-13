@@ -331,7 +331,10 @@ void I_Quit (void)
 #define IRX_EXECUTE_ARGS(path, argc, argv, ret) SifLoadStartModule(path, argc, argv, ret)// Load from file
 
 #define IRX_REPORT(x) printf("IRX:%s: id:%d, ret:%d\n", x, id, ret)
+#define IRX_NEEDED(x) {IRX_REPORT(x); if (id < 0 || ret != 0) I_Error("\tFATAL: failed to load IRX '%s'\n\tID:%d, ret:%d\n", x, id, ret);}
 
+IMPORT_BIN2C(iomanX_irx)
+IMPORT_BIN2C(fileXio_irx)
 IMPORT_BIN2C(usbd_irx)
 IMPORT_BIN2C(usbhdfsd_irx)
 IMPORT_BIN2C(sio2man_irx)
@@ -373,13 +376,18 @@ int main (int argc, char **argv)
 	SifLoadFileInit();
 	sbv_patch_enable_lmb(); // fixes SifExecModuleBuffer
 	sbv_patch_disable_prefix_check(); // castrates MODLOAD capability of checking if the IRX is loaded from a place that needs an KIRX
+	sbv_patch_fileio(); // FIX: bootrom FILEIO has a missing break statement on the RPC handler, any call to fileio remove() will chainload a fileio mkdir() for the same filename
 
+	id = IRXB_EXECUTE(iomanX_irx, &ret);
+	IRX_NEEDED("fileXio");
+	id = IRXB_EXECUTE(fileXio_irx, &ret);
+	IRX_NEEDED("sio2man");
+	fileXioInit(); // bin RPC service of fileXio, cant be before loading it
 	init_scr();
 	//rioInit();
 	/* Version info */
 	putchar('\n');
 	PrintVer();
-
 	myargc = argc;
 	myargv = (const char* const *)argv;
 
@@ -388,7 +396,7 @@ int main (int argc, char **argv)
 	//El_isra: modified PS2 SDL is needed to load sio2man earlier, this way I can load DONGLEMAN and DAEMON. ensuring that DOOM can load freely without needing to worry about the arcade daemon
 	// https://github.com/israpps/ps2sdk-ports/tree/v1.0-arcade
 	id = IRXB_EXECUTE(sio2man_irx, &ret);
-	IRX_REPORT("sio2man");
+	IRX_NEEDED("sio2man");
 #ifdef ARCADE
 	id = IRXB_EXECUTE(dongleman_irx, &ret);
 	IRX_REPORT("dongleman");
@@ -396,11 +404,7 @@ int main (int argc, char **argv)
 	id = IRX_EXECUTE("mc0:ACJVLOAD.IRX", &ret); // Initializes the System246 VGA ports. dont check for errors. since PYTHON1 does not need this
 
 	id = IRX_EXECUTE("rom0:DAEMON", &ret);
-	IRX_REPORT("daemon");
-	if (id < 0 || ret != 0) {
-		scr_printf("\n\n\n\tFATAL: Could not load 'rom0:DAEMON'\n");
-		//SleepThread();
-	}
+	IRX_NEEDED("daemon");
 #else
 	id = IRXB_EXECUTE(mcman_irx, &ret);
 	IRX_REPORT("mcman");
