@@ -1,6 +1,8 @@
 BINDIR ?= ../bin/
 BINNAME ?= DOOM
-EE_BIN ?= $(BINDIR)$(BINNAME).ELF
+
+EE_BIN = $(BINDIR)$(BINNAME)_unc.ELF
+EE_BIN_PKD = $(BINDIR)$(BINNAME).ELF
 
 ARCADE ?= 0
 
@@ -55,10 +57,14 @@ ioprp.s: $(IOPRP)
 	bin2s $< $@ ioprp_img
 endif
 
-all: $(EE_BIN) $(BINDIR)
+all: $(EE_BIN_PKD) $(BINDIR)
+
+$(EE_BIN_PKD): $(EE_BIN)
+	ps2-packer $(EE_BIN) $(EE_BIN_PKD)
 
 release: clean all
 	cp ../data/boomlump.wad $(BINDIR)boomlump.wad
+	rm -f $(EE_BIN)
 
 $(BINDIR):
 	mkdir -p $@
