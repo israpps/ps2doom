@@ -340,6 +340,7 @@ IMPORT_BIN2C(bdm_irx)
 IMPORT_BIN2C(bdmfs_fatfs_irx)
 IMPORT_BIN2C(usbmass_bd_irx)
 IMPORT_BIN2C(sio2man_irx)
+IMPORT_BIN2C(mmceman_irx)
 
 #ifdef ARCADE
 IMPORT_BIN2C(dongleman_irx)
@@ -400,6 +401,8 @@ int main (int argc, char **argv)
 	// https://github.com/israpps/ps2sdk-ports/tree/v1.0-arcade
 	id = IRXB_EXECUTE(sio2man_irx, &ret);
 	IRX_NEEDED("sio2man");
+	id = IRXB_EXECUTE(mmceman_irx, &ret);
+	IRX_REPORT("mmceman");
 #ifdef ARCADE
 	id = IRXB_EXECUTE(dongleman_irx, &ret);
 	IRX_REPORT("dongleman");

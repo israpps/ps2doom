@@ -829,9 +829,11 @@ static char* FindWADFile(const char* wfname, const char* ext)
 			break;
 		case 1:
 			d = "mass:/";
+			s = "APPS/DOOM/";
 			break;
 		case 2:
 			d = "mmce0:";
+			s = "APPS/DOOM/";
 			break;
 		case 3:
 			d = "cdrom:\\";

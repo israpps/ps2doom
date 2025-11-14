@@ -32,7 +32,7 @@ dstrings.o p_inter.o wi_stuff.o r_draw.o \
 f_finale.o p_lights.o z_bmalloc.o p_map.o \
 r_main.o f_wipe.o z_zone.o p_maputl.o \
 r_plane.o d_client.o l_udp.o \
-usbd.s bdm.s bdmfs_fatfs.s usbmass_bd.s sio2man.s fileXio.s iomanX.s
+usbd.s bdm.s bdmfs_fatfs.s usbmass_bd.s sio2man.s fileXio.s iomanX.s mmceman.s
 
 
 ifeq ($(ARCADE),1)
@@ -78,7 +78,7 @@ vpath %.irx $(PS2SDK)/iop/irx/
 	bin2s $< $@ $(IRXTAG)
 	
 clean:
-	rm -f $(EE_BIN) $(EE_OBJS) *.img
+	rm -f $(EE_BIN) $(EE_BIN_PKD) $(EE_OBJS) *.img
 
 
 include $(PS2SDK)/samples/Makefile.pref

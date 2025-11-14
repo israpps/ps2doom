@@ -1,4 +1,6 @@
 # PS2 DOOM
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/israpps/ps2doom/total?style=for-the-badge&logo=github&label=Downloads&labelColor=black)
+
 
 This repository originally corresponded to ps2 port of SDL DOOM made by @lukaszdk
 
