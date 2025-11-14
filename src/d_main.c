@@ -600,10 +600,12 @@ char *D_DoomExeDir(void)
 	}
 	return base;
 #else
+	char* base;
 	if (!CWD[0]) {
-		char * base = getcwd(CWD, sizeof CWD);
-		if (!base) strncpy(CWD, "mass:/DOOM/", 127);
+		base = getcwd(CWD, sizeof(CWD));
+		if (!base) base = strncpy(CWD, "mass:/DOOM/", 127);
 	}
+	return CWD;
 #endif
 }
 

@@ -733,13 +733,19 @@ void R_InitTranMap(int progress)
       const byte *playpal = W_CacheLumpName("PLAYPAL");
       byte       *my_tranmap;
 
-      char fname[PATH_MAX+1], *D_DoomExeDir(void);
+      char fname[PATH_MAX+1];
       struct {
         unsigned char pct;
         unsigned char playpal[256];
       } cache;
-      FILE *cachefp = fopen(strcat(strcpy(fname, D_DoomExeDir()),
-                                   "/tranmap.dat"),"r+b");
+      strcat(strcpy(fname, D_DoomExeDir()), "/tranmap.dat");
+#ifdef ARCADE
+      if (!strncmp(fname, "mc0", 3) || !strncmp(fname, "ac0", 3)) { // on an arcade PS2 we dont want to waste security dongle lifespan writing meaningless cache data
+        strcpy(fname, "mass:/DOOM/tranmap.dat");
+        fioMkdir("mass:/DOOM");
+      }
+#endif
+      FILE *cachefp = fopen(fname ,"r+b");
 
       main_tranmap = my_tranmap = Z_Malloc(256*256, PU_STATIC, 0);  // killough 4/11/98
 
