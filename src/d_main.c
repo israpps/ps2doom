@@ -587,9 +587,10 @@ void D_AddFile (const char *file, wad_source_t source)
 //  if non-existant
 // FIXME: need beter os independent/windows ver -- JessH@lbjhs.net
 static const char lxdoom_dir[] = {"mc0:DOOM"};
-
+static char CWD[128] = {0};
 char *D_DoomExeDir(void)
 {
+#ifdef DoomExeDir_FIXED_PATH
 	static char *base;
 	if (!base)        // cache multiple requests
 	{
@@ -598,6 +599,12 @@ char *D_DoomExeDir(void)
 		fioMkdir(base); // Make sure it exists
 	}
 	return base;
+#else
+	if (!CWD[0]) {
+		char * base = getcwd(CWD, sizeof CWD);
+		if (!base) strncpy(CWD, "mass:/DOOM/", 127);
+	}
+#endif
 }
 
 // killough 10/98: support -dehout filename
