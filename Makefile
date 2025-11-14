@@ -423,3 +423,7 @@ rpm:	lsdldoom.spec dist
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
+
+arcade-sdl:
+	git clone --branch "v1.0-arcade" "https://github.com/israpps/ps2sdk-ports"
+	$(MAKE) sdl -C ps2sdk-ports
