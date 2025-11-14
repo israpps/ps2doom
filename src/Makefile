@@ -57,7 +57,7 @@ ioprp.s: $(IOPRP)
 	bin2s $< $@ ioprp_img
 endif
 
-all: $(EE_BIN_PKD) $(BINDIR)
+all: $(BINDIR) $(EE_BIN_PKD)
 
 $(EE_BIN_PKD): $(EE_BIN)
 	ps2-packer $(EE_BIN) $(EE_BIN_PKD)
