@@ -17,21 +17,22 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --prune --unshallow
 
-      - name: Install custom PS2 SDL
-        run: |
-          git clone --branch "v1.0-arcade" "https://github.com/israpps/ps2sdk-ports"
-          make sdl -C ps2sdk-ports
-
       - name: Compile DOOM
         run: |
           rm -rf bin/
           mkdir -p bin/
           make release -C src
 
+      - name: Install custom PS2 SDL for arcade
+        run: |
+          git clone --branch "v1.0-arcade" "https://github.com/israpps/ps2sdk-ports"
+          make sdl -C ps2sdk-ports
+
       - name: Compile ARCADE DOOM
         run: |
           rm -rf System246/
           mkdir -p System246/
+          cp data/boot.bin System246/
           make release -C src BINDIR=../System246/ ARCADE=1
 
       - name: Upload artifacts
@@ -45,7 +46,7 @@ jobs:
       - name: pack
         run: |
           zip PS2DOOM.zip -9 -r bin/
-          zip PS2DOOM-ARCADE.zip -9 -r bin/
+          zip PS2DOOM-ARCADE.zip -9 -r System246/
 
       - name: Compile package for games
         if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
