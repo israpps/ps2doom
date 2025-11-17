@@ -45,14 +45,8 @@ jobs:
 
       - name: pack
         run: |
-          zip PS2DOOM.zip -9 -r bin/
-          zip PS2DOOM-ARCADE.zip -9 -r System246/
-
-      - name: Compile package for games
-        if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
-        run: |
-          chmod +x ./compile_generic_package.sh
-          ./compile_generic_package.sh
+          zip PS2DOOM.zip -9 -r bin/ ./COPYING ./README.MD
+          zip PS2DOOM-ARCADE.zip -9 -r System246/ ./COPYING ./README.MD
 
       - uses: "mathieucarbou/marvinpinto-action-automatic-releases@latest"
         if: github.ref == 'refs/heads/master'

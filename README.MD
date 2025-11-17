@@ -25,7 +25,7 @@ get them yourself
 
 to compile the source code, you need PS2DEV v1.0 docker image (`ps2dev/ps2dev:v1.0`)
 
-as well as a modified version of PS2 SDL I made (only if you plan on compiling the arcade version), to get that SDL run `make arcade-sdl`
+as well as a modified version of PS2 SDL I made, to get that SDL run `make arcade-sdl`
 
 for compiling PS2DOOM do
 
