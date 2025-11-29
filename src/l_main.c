@@ -190,6 +190,7 @@ unsigned int endoom_mode;
 static void PrintVer(void)
 {
 	printf("PS2Doom v%s\nCompiled on %s  %s\nCommit: %s\n", VERSION, __DATE__, __TIME__, __GITHASH__);
+	scr_printf("\n\nPS2Doom v%s\nCompiled on %s  %s\nCommit: %s\n", VERSION, __DATE__, __TIME__, __GITHASH__);
 }
 
 /* I_EndDoom
@@ -352,6 +353,10 @@ IMPORT_BIN2C(mcman_irx)
 IMPORT_BIN2C(ioprp_img)
 #endif
 
+#ifdef PPCTTY
+IMPORT_BIN2C(ppctty_irx)
+#endif
+
 #include <sifrpc.h>
 
 //#include <romfs_io.h>
@@ -382,7 +387,9 @@ int main (int argc, char **argv)
 	sbv_patch_enable_lmb(); // fixes SifExecModuleBuffer
 	sbv_patch_disable_prefix_check(); // castrates MODLOAD capability of checking if the IRX is loaded from a place that needs an KIRX
 	sbv_patch_fileio(); // FIX: bootrom FILEIO has a missing break statement on the RPC handler, any call to fileio remove() will chainload a fileio mkdir() for the same filename
-
+#ifdef PPCTTY
+	IRXB_EXECUTE(ppctty_irx, NULL);
+#endif
 	id = IRXB_EXECUTE(iomanX_irx, &ret);
 	IRX_NEEDED("fileXio");
 	id = IRXB_EXECUTE(fileXio_irx, &ret);
@@ -394,8 +401,6 @@ int main (int argc, char **argv)
 	PrintVer();
 	myargc = argc;
 	myargv = (const char* const *)argv;
-
-	SifInitRpc(0);
 
 	//El_isra: modified PS2 SDL is needed to load sio2man earlier, this way I can load DONGLEMAN and DAEMON. ensuring that DOOM can load freely without needing to worry about the arcade daemon
 	// https://github.com/israpps/ps2sdk-ports/tree/v1.0-arcade

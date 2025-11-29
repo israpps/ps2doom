@@ -4,7 +4,11 @@ BINNAME ?= DOOM
 EE_BIN = $(BINDIR)$(BINNAME)_unc.ELF
 EE_BIN_PKD = $(BINDIR)$(BINNAME).ELF
 
+# COH-H PS2 support
 ARCADE ?= 0
+
+# DECKARD Slims PowerPC UART logging
+PPCTTY ?= 0
 
 EE_INCS = -I$(PS2SDK)/ports/include -I$(PS2SDK)/ports/include/SDL -I$(PS2SDK)/ports/include/zlib
 EE_LIBS = -L$(PS2SDK)/ports/lib -lsdlmixer -lsdl -lc -lm -ldebug -lfileXio
@@ -46,6 +50,11 @@ $(IOPRP):
 
 else
   EE_OBJS += mcman.s
+endif
+
+ifeq ($(PPCTTY),1)
+  EE_CFLAGS += -DPPCTTY
+  EE_OBJS += ppctty.s
 endif
 
 ifdef IOPRP
