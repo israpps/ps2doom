@@ -603,7 +603,16 @@ char *D_DoomExeDir(void)
 	char* base;
 	if (!CWD[0]) {
 		base = getcwd(CWD, sizeof(CWD));
-		if (!base) base = strncpy(CWD, "mass:/DOOM/", 127);
+		if (!base || !strcmp(base, "/")) {
+			strncpy(CWD, myargv[0], 127);
+			
+        	base = strrchr(CWD, '/');
+        	if (base) {
+        	    *base = 0;
+        	} else {
+				strncpy(CWD, myargv[0], 127);
+        	}
+		}
 	}
 	return CWD;
 #endif
@@ -830,7 +839,7 @@ static char* FindWADFile(const char* wfname, const char* ext)
 			d = "";
 			break;
 		case 1:
-			d = "mass:/";
+			d = "mass:";
 			s = "APPS/DOOM/";
 			break;
 		case 2:
@@ -857,6 +866,7 @@ static char* FindWADFile(const char* wfname, const char* ext)
 			s ? s : "", (s && !HasTrailingSlash(s)) ? "/" : "",
 			wfname);
 
+		lprintf(LO_INFO, "trying with %s\n", p);
 		if (access(p,F_OK))
 			strcat(p, ext);
 		if (!access(p,F_OK)) {
